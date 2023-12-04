@@ -1,0 +1,11 @@
+//新增項目
+
+
+
+INSERT INTO ExecutionTime (start_time, end_time, execution_time_category_id) VALUES ($_POST['start'], $_POST['end'], $_POST['category']);
+
+$ExecutionTimeId = $conn->lastInsertId();
+
+//如果有任務或標籤
+
+INSERT INTO Tasklabel (tasklabel_execution_time_id, tasklabel_task_id, tasklabel_label_id) VALUES ($ExecutionTimeId, $_POST['task'], $_POST['label']);

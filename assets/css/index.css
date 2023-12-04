@@ -1,0 +1,81 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+th, td {
+    text-align: center;
+    height: 60px;
+    overflow: hidden;
+}
+
+
+.toolbar {
+    display: flex;
+    height: 80px;
+    padding: 30px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    align-items: center;
+    background-color: #dedede;
+
+}
+
+.tbar {
+    width: 100px;
+    font-size: 20px;
+
+}
+
+.container {
+    display: flex;
+    position: relative;
+    padding: 10px;
+    gap: 10px;
+}
+
+.sidebar {
+    flex: 1;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #dedede;
+
+}
+
+.wrap-sbar2{
+    padding-left: 20%;
+    padding-bottom: 20px;
+    overflow: hidden;
+}
+
+.sbar {
+    padding: 20px;
+    font-size: 20px;
+}
+
+.andor{
+    display: flex;
+    gap: 5px;
+}
+
+.sbar2 {
+    font-size: 18px;
+}
+
+.option {
+    display: flex;
+    
+}
+
+.space{
+    width: 10%;
+}
+
+.block {
+    flex: 5;
+
+}
+
+.wrap-sbar-content, .wrap-options {
+    display: none;
+}

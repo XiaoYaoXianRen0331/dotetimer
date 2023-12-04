@@ -1,0 +1,65 @@
+.toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    font-size: 24px;
+}
+
+.container {
+    width: 100%;
+    max-width: 750px;
+    margin: auto;
+    
+}
+
+.item {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.item .title {
+    font-size: 20px;
+    padding: 20px;
+    width: 30%;
+
+}
+
+.item .wrap-options {
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
+}
+
+.item .wrap-options .option {
+    padding: 5px;
+
+
+}
+
+#note {
+    width: 500px;
+    height: 250px;
+    resize: none;
+}
+
+.wrap-btn{
+    display: flex;
+    width: 70%;
+    gap: 5%;
+}
+
+.btn {
+    font-size: 20px;
+    width: 20%;
+    height: 60px;
+    background-color: #fff;
+    color: #000;
+    border: blue solid 5px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
