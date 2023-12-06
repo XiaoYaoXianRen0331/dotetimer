@@ -67,7 +67,7 @@ function result_plan($order_by = '') {
                         <div class="wrap-options">
                             <div class="andor">
                                 <div class="option">
-                                    <input type="radio" name="andor" id="labelor">
+                                    <input type="radio" name="andor" id="labelor" checked>
                                     <label for="labelor">或</label>
                                 </div>
                                 <div class="option">
@@ -209,8 +209,10 @@ function record($data)
             <td class="category"><?php echo str7($get_category_name); ?></td>
             <td class="task"><?php echo str7($get_task_name); ?></td>
             <td class="labels">
-                <?php foreach($get_labels as $label){
-                    echo '<div class="label">' . str7($label) . '</div>';
+                <?php if($get_labels->num_rows > 0) {
+                    while($get_label = $get_labels->fetch_assoc()) {
+                        echo '<div class="label">' . str7($get_label['label']) . '</div>';
+                    }
                 } ?>
             </td>
             <td><?php echo str7($row['executiontime_note']); ?></td>
@@ -288,9 +290,9 @@ function getTask() {
     foreach ($task_sorted as $key => $row) { ?>
         <div class="level">
             <div class="option">
-                <input type="checkbox" class="side_task" name="task" id="task<?php $row['row']['task_id'] ?>">
+                <input type="checkbox" class="side_task" name="task" id="task<?php echo $row['row']['task_id']; ?>">
                 <?php echo str_repeat('<span class="space"></span>',$row['level']-1); ?>
-                <label for="task<?php $row['row']['task_id'] ?>"><? $row['row']['task_name'] ?></label>
+                <label for="task<?php echo $row['row']['task_id']; ?>"><?php echo $row['row']['task_name']; ?></label>
             </div>
         <?php
         if($key+1 < count($task_sorted)){

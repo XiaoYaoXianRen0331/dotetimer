@@ -3,38 +3,29 @@ require_once 'string.php';
 require_once 'conn.php';
 
 
-if(isset($_Post['task'])) {
 
-    $task_item = $_Post['task'];
-
-} else {
-
-    $task_item = 1;
-
-}
-
-    $qry = "UPDATE ExecutionTime SET `start_time`=\"{$_POST['start']}\", 
-    `end_time`=\"{$_POST['end']}\", 
-    `executiontime_category_id`=\"{$_POST['category']}\", 
-    `executiontime_note`=\"{$_POST['note']}\", 
-    `executiontime_task_id`=\"{$task_item}\"
-    WHERE `executiontime_id` = \"{$_GET['a']}\";";
+$qry = "UPDATE ExecutionTime SET `start_time`=\"{$_POST['start']}\", 
+`end_time`=\"{$_POST['end']}\", 
+`executiontime_category_id`=\"{$_POST['category']}\", 
+`executiontime_note`=\"{$_POST['note']}\", 
+`executiontime_task_id`=\"{$_POST['task']}\"
+WHERE `executiontime_id` = \"{$_GET['a']}\";";
 
 try {
     $conn -> query($qry);
-    echo "Success";
+    echo "Success<br></br>";
 
 
-    if(isset($_Post['label'])) {
+    if(isset($_POST['label'])) {
 
         $conn -> query("DELETE FROM tasklabel WHERE `tasklabel_id` = \"{$_GET['a']}\";");
     
     
-        foreach($_Post['label'] as $label_item) {
+        foreach($_POST['label'] as $label_item) {
     
             $qry = "INSERT IGNORE INTO Tasklabel (tasklabel_id, tasklabel_label_id) VALUES (\"{$_GET['a']}\", \"{$label_item}\");";
             $conn -> query($qry);
-            echo 'Success insert: ' . $label_item;
+            echo 'Success insert: ' . $label_item . '<br/>';
     
         }
     }

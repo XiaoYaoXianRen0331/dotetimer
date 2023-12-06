@@ -110,11 +110,9 @@ if (isset($_GET['a'])) {
                     <label for="start" class="title">開始時間</label>
                     <input type="datetime-local" name="start" id="start" value="<?php echo $result['start_time']; ?>">
                 </div>
-                <div class="item">
-                    <?php if ($result['executiontime_record'] != 2) {
-        echo '<label for="end" class="title">結束時間</label>';
-        echo '<input type="datetime-local" name="end" id="end" value="' . $result['end_time'] . '">';
-    }?>
+                <div class="item" <?php if ($result['executiontime_record'] == 2) { echo 'style="display: none;"'; }?>>
+                        <label for="end" class="title">結束時間</label>
+                        <input type="datetime-local" name="end" id="end" value="<?php echo $result['end_time']; ?>">
                 </div>
                 <div class="item">
                     <div class="title">分類</div>

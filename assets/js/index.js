@@ -22,6 +22,12 @@ for (i of items){
     });
 }
 
+for(i of [document.querySelector('#labelor'), document.querySelector('#labeland')]){
+    i.addEventListener('click', function(e){
+        clickfilter();
+    });
+}
+
 
 
 function clickfilter() {
@@ -74,18 +80,27 @@ function clickfilter() {
                 tag = true;
                 for(side of side_label){
                     if(side.checked) {
-                        for(cell of cells.querySelectorAll('.label')){
-                            if(cell.innerHTML == side.closest('.option').querySelector('label').innerHTML) {
-                                return true;
-                            }
-                        }
                         tag = false;
+                        if((document.querySelector('#labelor').checked)) {
+                            for(cell of cells.querySelectorAll('.label')){
+                                if(cell.innerHTML == side.closest('.option').querySelector('label').innerHTML) {
+                                    return true;
+                                }
+                            }
+                        } else {
+                            for(cell of cells.querySelectorAll('.label')){
+                                if(cell.innerHTML == side.closest('.option').querySelector('label').innerHTML) {
+                                    tag = true;
+                                }
+                            }
+                            if (!tag) { return false; }
+                        }
                     }
                 }
                 return (tag) ? true : false;
             })()
         )) {
-            tl.closest('tr').style.display = 'none';
+            cells.closest('tr').style.display = 'none';
         }
         
     }
@@ -93,12 +108,50 @@ function clickfilter() {
 
 
 
-for(ct of category) {
-    ct.addEventListener('click', function(e) {
-        for(sc of side_category) {
-            sc.checked = false;
-            if(sc.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
-                sc.click();
+for(td of category) {
+    td.addEventListener('click', function(e) {
+        // console.log(this);
+        for(sideIntdEL of side_category) {
+            sideIntdEL.checked = false;
+            // console.log(sideIntdEL);
+            if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
+                // console.log(sideIntdEL, 100);
+                sideIntdEL.click();
+                sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
+                sideIntdEL.closest('.wrap-options').style.display = 'block';
+                // console.log(sideIntdEL, 1);
+            }
+        }
+        clickfilter();
+    });
+}
+
+for(td of task) {
+    td.addEventListener('click', function(e) {
+        // console.log(td, 100);
+        for(sideIntdEL of side_task) {
+            sideIntdEL.checked = false;
+            if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
+                sideIntdEL.click();
+                sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
+                sideIntdEL.closest('.wrap-options').style.display = 'block';
+                // console.log(sideIntdEL, 2);
+            }
+        }
+        clickfilter();
+    });
+}
+
+for(td of labels) {
+    td.addEventListener('click', function(e) {
+        // console.log(td, 100);
+        for(sideIntdEL of side_label) {
+            sideIntdEL.checked = false;
+            if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
+                sideIntdEL.click();
+                sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
+                sideIntdEL.closest('.wrap-options').style.display = 'block';
+                // console.log(sideIntdEL, 2);
             }
         }
         clickfilter();
@@ -116,8 +169,8 @@ sbars.forEach((s) => {
 });
 
 var selects = document.querySelectorAll('.sbar2'); //
-console.log(document.querySelector('.sbar'));
-console.log(selects);
+// console.log(document.querySelector('.sbar'));
+// console.log(selects);
 selects.forEach((s) => {
     s.addEventListener('click', function(e) {
         content = this.closest('.wrap-sbar2').querySelector('.wrap-options');
