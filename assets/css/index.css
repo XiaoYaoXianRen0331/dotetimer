@@ -39,7 +39,7 @@ th, td {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     background-color: #dedede;
-
+    min-height: 100vh;
 }
 
 .wrap-sbar2{
@@ -56,10 +56,6 @@ th, td {
 .andor{
     display: flex;
     gap: 5px;
-}
-
-.sbar2 {
-    font-size: 18px;
 }
 
 .option {

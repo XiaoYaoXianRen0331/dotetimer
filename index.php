@@ -2,10 +2,15 @@
 require_once 'string.php';
 require_once 'conn.php';
 
-$result = $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1 ;");
+function result($order_by = '') {
+    global $conn;
+    return $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1 {$order_by};");
+}
 
-$result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1 ;");
-
+function result_plan($order_by = '') {
+    global $conn;
+    return $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1 {$order_by};");
+}
 ?>
 
 
@@ -48,13 +53,13 @@ $result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_rec
                     <div class="wrap-sbar2">
                         <div class="sbar2">分類</div>
                         <div class="wrap-options">
-                            <?php getCategoryTree(); ?>
+                            <?php getCategory(); ?>
                         </div>
                     </div>
                     <div class="wrap-sbar2">
                         <div class="sbar2">任務</div>
                         <div class="wrap-options">
-                            <?php getTaskTree(); ?>
+                            <?php getTask(); ?>
                         </div>
                     </div>
                     <div class="wrap-sbar2">
@@ -78,10 +83,71 @@ $result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_rec
             </div>
             <div class="wrap-sbar">
                 <div class="sbar">排序</div>
+                <div class="wrap-sbar-content">
+                    <div class="wrap-sbar2">
+                        <div class="sort" id="start-time">開始時間</div>
+                    </div>
+                    <div class="wrap-sbar2">
+                        <div class="sort" id="end-time">結束時間</div>
+                    </div>
+                    <div class="wrap-sbar2">
+                        <div class="sort" id="time-lasting">持續時間</div>
+                    </div>
+                    <div class="wrap-sbar2">
+                        <div class="sort" id="category">分類</div>
+                    </div>
+                    <div class="wrap-sbar2">
+                        <div class="sort" id="task">任務</div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="wrap-sbar">
+                <div class="sbar">搜尋</div>
+                <div class="wrap-sbar-content">
+
+                </div>
             </div>
         </div>
-        <?php record($result_plan);?>
-        <?php record($result);?>
+        <div class="block">
+            <table>
+                <thead>
+                    <tr>
+                        <th>時間</th>
+                        <th>持續</th>
+                        <th>類別</th>
+                        <th>任務</th>
+                        <th>標籤</th>
+                        <th>備註</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                 
+                    <?php //record(result_plan((isset($_GET['o'])) ? $_GET['o'] : '')); ?>
+                    <?php record(result_plan('ORDER BY TIMESTAMPDIFF(second, start_time, end_time)'));?>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="block">
+            <table>
+                <thead>
+                    <tr>
+                        <th>時間</th>
+                        <th>持續</th>
+                        <th>類別</th>
+                        <th>任務</th>
+                        <th>標籤</th>
+                        <th>備註</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php record(result((isset($_GET['o'])) ? $_GET['o'] : ''));?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 
@@ -97,87 +163,71 @@ $result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_rec
 <?php
 function record($data)
 {
-    global $conn;?>
-    <div class="block">
-        <table>
-            <thead>
-                <tr>
-                    <th>時間</th>
-                    <th>持續</th>
-                    <th>類別</th>
-                    <th>任務</th>
-                    <th>標籤</th>
-                    <th>備註</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php while ($row = $data->fetch_assoc()) {
-                $start_time = new DateTime($row['start_time']);
-                $end_time = new DateTime($row['end_time']);
+    global $conn;
+    
+    while ($row = $data->fetch_assoc()) {
+        $start_time = new DateTime($row['start_time']);
+        $end_time = new DateTime($row['end_time']);
 
-                $get_category_name = $conn->query("SELECT * FROM category WHERE category_id = {$row['executiontime_category_id']}")->fetch_assoc()['category_name'];
-                $get_task_name = $conn->query("SELECT * FROM task WHERE task_id = {$row['executiontime_task_id']}")->fetch_assoc()['task_name'];
+        $get_category_name = $conn->query("SELECT * FROM category WHERE category_id = {$row['executiontime_category_id']}")->fetch_assoc()['category_name'];
+        $get_task_name = $conn->query("SELECT * FROM task WHERE task_id = {$row['executiontime_task_id']}")->fetch_assoc()['task_name'];
 
-                $get_labels = $conn->query("
-                        SELECT
-                            l.label_name AS label
-                        FROM
-                            tasklabel tl
-                        JOIN
-                            label l ON l.label_id = tl.tasklabel_label_id
-                        WHERE
-                            tl.tasklabel_id = {$row['executiontime_id']}
-                        ORDER BY 
-                            l.label_id
-                        ");
+        $get_labels = $conn->query("
+                SELECT
+                    l.label_name AS label
+                FROM
+                    tasklabel tl
+                JOIN
+                    label l ON l.label_id = tl.tasklabel_label_id
+                WHERE
+                    tl.tasklabel_id = {$row['executiontime_id']}
+                ORDER BY 
+                    l.label_id
+                ");
 
 
-                ?>
+        ?>
 
-                <tr class="tr">
-                    <td>
-                        <div class="time"><?php echo $start_time->format('n/j H:i'); ?></div>
-                        <div class="time">
-                        <?php if ($row['executiontime_record'] == 2) {
-                            echo '執行中';
-                        } else {
-                            echo $end_time->format('n/j H:i');
-                        }?>
-                        </div>
-                    </td>
-                    <td>
-                    <?php if ($row['executiontime_record'] == 2) {
-                        echo timefmt($start_time->diff(new DateTime()));
-                    } else {
-                        echo timefmt($start_time->diff($end_time));
-                    }?>
-                    </td>
-                    <td class="category"><?php echo str7($get_category_name); ?></td>
-                    <td class="task"><?php echo str7($get_task_name); ?></td>
-                    <td class="labels">
-                        <?php foreach($get_labels as $label){
-                            echo '<div class="label">' . str7($label) . '</div>';
-                        } ?>
-                    </td>
-                    <td><?php echo str7($row['executiontime_note']); ?></td>
-                    <td>
-                        <a href="event.php?a=<?php echo $row['executiontime_id']; ?>">查看</a>
-                        <?php if ($row['executiontime_record'] == 2) {
-                            echo '<a href="finish.php?a=' . $row['executiontime_id'] . '">完成</a>';
-                        }?>
-                    </td>
-                </tr>
+        <tr class="tr">
+            <td>
+                <div class="time"><?php echo $start_time->format('n/j H:i'); ?></div>
+                <div class="time">
+                <?php if ($row['executiontime_record'] == 2) {
+                    echo '執行中';
+                } else {
+                    echo $end_time->format('n/j H:i');
+                }?>
+                </div>
+            </td>
+            <td>
+            <?php if ($row['executiontime_record'] == 2) {
+                echo timefmt($start_time->diff(new DateTime()));
+            } else {
+                echo timefmt($start_time->diff($end_time));
+            }?>
+            </td>
+            <td class="category"><?php echo str7($get_category_name); ?></td>
+            <td class="task"><?php echo str7($get_task_name); ?></td>
+            <td class="labels">
+                <?php foreach($get_labels as $label){
+                    echo '<div class="label">' . str7($label) . '</div>';
+                } ?>
+            </td>
+            <td><?php echo str7($row['executiontime_note']); ?></td>
+            <td>
+                <a href="event.php?a=<?php echo $row['executiontime_id']; ?>">查看</a>
+                <?php if ($row['executiontime_record'] == 2) {
+                    echo '<a href="finish.php?a=' . $row['executiontime_id'] . '">完成</a>';
+                }?>
+            </td>
+        </tr>
 
 
 
-            <?php
-}?>
+    
+    <?php }
 
-            </tbody>
-        </table>
-    </div>
-<?php }
+}
 
 function str7($str)
 {
@@ -189,54 +239,77 @@ function str7($str)
 }
 
 function timefmt($time){
-    if ($time->format('%a')>1){
+    if ($time->format('%a')>0){
         return $time->format('%ad %hh %mm');
-    } else if ($time->format('%h')>1){
-        return $time->format('%hh %mm %ss');
+    } else if ($time->format('%h')>0){
+        return $time->format('%hh %im %ss');
     } else {
-        return $time->format('%mm %ss');
+        return $time->format('%im %ss');
     }
 }
 
 
-function getCategoryTree($parentId = 20, $level = 1) {
-    global $conn;
-    $result = $conn->query("SELECT * FROM category WHERE parent_id = \"{$parentId}\";");
+function getCategory() {
+    global $category_sorted;
+    $tag = 1;
 
-    if ($result->num_rows > 0) {
-        
-        while ($row = $result->fetch_assoc()) { 
-            echo '<div class="level">';
-                echo '<div class="option">';
-                    echo '<input type="checkbox" class="side_category" name="category" id="category'.$row['category_id'].'">';
-                    echo str_repeat('<span class="space"></span>', $level-1);
-                    echo '<label for="category'.$row['category_id'].'">'.$row['category_name'].'</label>';
+    foreach ($category_sorted as $key => $row) { ?>
+        <div class="level">
+            <div class="option">
+                <input type="checkbox" class="side_category" name="category" id="category<?php echo $row['row']['category_id']; ?>">
+                <?php echo str_repeat('<span class="space"></span>', $row['level']-1); ?>
+                <label for="category<?php echo $row['row']['category_id'] ?>"><?php echo $row['row']['category_name'] ?></label>
+            </div>
+        <?php
+        if($key+1 < count($category_sorted)){
+            $sub = $category_sorted[$key+1]['level'] - $tag;
+            if($sub == 0) {
                 echo '</div>';
-                
-                getCategoryTree($row['category_id'], $level + 1);
-            echo '</div>';
+            } else{ 
+                $tag += $sub;
+                if($sub < 0) {
+                    echo str_repeat('</div>', abs($sub)+1);
+                }
+            }
         }
+    }            
+    echo str_repeat('</div>', $tag);
+
+    unset($key);
+    unset($row);
         
-    }
-}
+} 
 
 
-function getTaskTree($parentId = 1, $level = 1) {
-    global $conn;
-    $result = $conn->query("SELECT * FROM task WHERE task_parent_id = \"{$parentId}\";");
+function getTask() {
+    global $task_sorted;
+    $tag = 1;
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo '<div class="level">';
-                echo '<div class="option">';
-                    echo '<input type="checkbox" class="side_task" name="task" id="task'.$row['task_id'].'">';
-                    echo str_repeat('<span class="space"></span>',$level-1);
-                    echo '<label for="task'.$row['task_id'].'">'.$row['task_name'].'</label>';
+    foreach ($task_sorted as $key => $row) { ?>
+        <div class="level">
+            <div class="option">
+                <input type="checkbox" class="side_task" name="task" id="task<?php $row['row']['task_id'] ?>">
+                <?php echo str_repeat('<span class="space"></span>',$row['level']-1); ?>
+                <label for="task<?php $row['row']['task_id'] ?>"><? $row['row']['task_name'] ?></label>
+            </div>
+        <?php
+        if($key+1 < count($task_sorted)){
+            $sub = $task_sorted[$key+1]['level'] - $tag;
+            if($sub == 0) {
                 echo '</div>';
-                getTaskTree($row['task_id'], $level + 1);
-            echo '</div>';
+            } else{ 
+                $tag += $sub;
+                if($sub < 0) {
+                    echo str_repeat('</div>', abs($sub)+1);
+                }
+            }
         }
-    }
+    }            
+    echo str_repeat('</div>', $tag);
+
+    unset($key);
+    unset($row);
+            
 }
 
 function getLabelTree(){
