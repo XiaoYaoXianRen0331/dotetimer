@@ -6,8 +6,14 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    scroll-behavior: smooth;
+}
+
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 ul {
