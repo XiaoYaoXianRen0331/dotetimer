@@ -1,15 +1,17 @@
+// 表格資料
 let category = document.querySelectorAll('.category');
 let task = document.querySelectorAll('.task');
 let labels = document.querySelectorAll('.label');
 let td_labels = document.querySelectorAll('.labels');
 
-
+// 側邊欄checkbox
 let side_category = document.querySelectorAll('.side_category');
 let side_task = document.querySelectorAll('.side_task');
 let side_label = document.querySelectorAll('.side_label');
 
 let items = [...side_category, ...side_task, ...side_label];
 
+// 當checkbox被按時，篩選資料
 for (i of items){
     i.addEventListener('click', function(e){
         children = this.closest('.level').querySelectorAll('.level .option input');
@@ -22,6 +24,7 @@ for (i of items){
     });
 }
 
+// 側邊欄label的or、and被按時，也要篩選資料
 for(i of [document.querySelector('#labelor'), document.querySelector('#labeland')]){
     i.addEventListener('click', function(e){
         clickfilter();
@@ -29,7 +32,7 @@ for(i of [document.querySelector('#labelor'), document.querySelector('#labeland'
 }
 
 
-
+// 篩選資料
 function clickfilter() {
     lines = document.querySelectorAll('.category');
     for(line of lines){
@@ -107,7 +110,7 @@ function clickfilter() {
 }
 
 
-
+// 當按下表格資料時，篩選資料
 for(td of category) {
     td.addEventListener('click', function(e) {
         // console.log(this);
@@ -158,6 +161,7 @@ for(td of labels) {
     });
 }
 
+// 側邊欄收合
 sbars = document.querySelectorAll('.sbar');
 sbars.forEach((s) => {
     s.addEventListener('click', function(e) {
@@ -181,6 +185,7 @@ selects.forEach((s) => {
     });
 });
 
+// 側邊欄排序資料
 order = [];
 let sorts = document.querySelectorAll('.sort');
 sorts.forEach((s) => {
@@ -217,4 +222,18 @@ sorts.forEach((s) => {
         text = text.substring(0, text.length-2);
         window.location.href='index.php?o='+text;
     });
+});
+
+// 切換記錄與計畫
+record_block = document.getElementById('record-block');
+plan_block = document.getElementById('plan-block');
+
+document.getElementById('go-plan').addEventListener('click', (e) => {
+    record_block.style.display = 'none';
+    plan_block.style.display = 'block';
+});
+
+document.getElementById('go-record').addEventListener('click', (e) => {
+    record_block.style.display = 'block';
+    plan_block.style.display = 'none';
 });

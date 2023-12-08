@@ -2,11 +2,13 @@
 require_once 'string.php';
 require_once 'conn.php';
 
+// 取得記錄資料
 function result($order_by = '') {
     global $conn;
     return $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1 {$order_by};");
 }
 
+// 取得計畫資料
 function result_plan($order_by = '') {
     global $conn;
     return $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1 {$order_by};");
@@ -25,51 +27,8 @@ function result_plan($order_by = '') {
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
-    <div class="header">
-        <div class="wrap-header">
-            <div class="logo"></div>
-            <ul>
-                <li>
-                    <div class="header-item">
-                        <a href="attr.php?m=c">查看分類</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="header-item">
-                        <a href="attr.php?m=t">查看任務</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="header-item">
-                        <a href="attr.php?m=l">查看標籤</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="header-item">
-                        <a href="event.php?r=1">新增計畫</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="header-item">
-                        <a href="event.php?r=0">新增記錄</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="header-item">
-                        <a href="event.php?r=2">開始記錄</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
 
-        <div class="titlebar">
-            <div class="main-title">時間日誌</div>
-            <div class="sub-title">這是我的副標題</div>
-            <a href="#go" class="go">>>立刻開始</a>
-        </div>
-        <div id="go"></div>
-    </div>
-
+    <!-- 頂部欄 -->
     <div class="toolbar">
         <ul>
             <li>
@@ -106,6 +65,7 @@ function result_plan($order_by = '') {
     </div>
 
     <div class="container">
+        <!-- 側邊欄 -->
         <div class="sidebar">
             <div class="wrap-sbar">
                 <div class="sbar">篩選</div>
@@ -169,7 +129,8 @@ function result_plan($order_by = '') {
                 </div>
             </div>
         </div>
-        <div class="block">
+        <div class="block" id="plan-block">
+            <div class="go" id="go-record">前往記錄</div>
             <table>
                 <thead>
                     <tr>
@@ -190,7 +151,8 @@ function result_plan($order_by = '') {
             </table>
         </div>
         
-        <div class="block">
+        <div class="block" id="record-block">
+            <div class="go" id="go-plan">前往計畫</div>
             <table>
                 <thead>
                     <tr>
@@ -221,6 +183,7 @@ function result_plan($order_by = '') {
 
 
 <?php
+// 顯示資料表格
 function record($data)
 {
     global $conn;
@@ -275,7 +238,7 @@ function record($data)
                     }
                 } ?>
             </td>
-            <td><?php echo str7($row['executiontime_note']); ?></td>
+            <td><?php echo str7($row['executiontime_note'], 14); ?></td>
             <td>
                 <a href="event.php?a=<?php echo $row['executiontime_id']; ?>">查看</a>
                 <?php if ($row['executiontime_record'] == 2) {
@@ -291,15 +254,17 @@ function record($data)
 
 }
 
-function str7($str)
+// 裁切字串
+function str7($str, $num=7)
 {
-    if (mb_strlen($str) > 7) {
-        return mb_substr($str, 0, 7) . '...';
+    if (mb_strlen($str) > $num) {
+        return mb_substr($str, 0, $num) . '...';
     } else {
         return $str;
     }
 }
 
+// 格式化時間
 function timefmt($time){
     if ($time->format('%a')>0){
         return $time->format('%ad %hh %mm');
@@ -311,6 +276,9 @@ function timefmt($time){
 }
 
 
+
+
+// 側邊欄篩選
 function getCategory() {
     global $category_sorted;
     $tag = 1;
@@ -341,7 +309,6 @@ function getCategory() {
     unset($row);
         
 } 
-
 
 function getTask() {
     global $task_sorted;

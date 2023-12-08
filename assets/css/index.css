@@ -1,68 +1,29 @@
+body {
+    background-color: var(--background3);
+}
+
 table {
     width: 100%;
     table-layout: fixed;
+}
+
+tbody {
+    color: var(--starry-blue2);
+}
+
+thead tr {
+    border-bottom: 3px solid var(--stat-yellow1);
+    
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--stat-yellow1);
 }
 
 th, td {
     text-align: center;
     height: 60px;
     overflow: hidden;
-}
-
-.header {
-    height: 100vh;
-}
-
-.wrap-header {
-    height: 80px;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.wrap-header ul {
-    display: flex;
-    height: 100%;
-    align-items: flex-end;
-}
-
-.wrap-header ul li {
-    margin-right: 10px;
-}
-
-.header-item {
-    color: var(--font-gray);
-    font-weight: 900;
-}
-
-.titlebar {
-    background-color: var(--starry-blue1);
-    width: 100%;
-    height: calc(100% - 80px);
-    position: relative;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.titlebar .main-title {
-    font-size: 2.5rem;
-    font-weight: 900;
-    padding-bottom: 10px;
-}
-
-.titlebar .sub-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-}
-
-.titlebar .go {
-    position: absolute;
-    top: 80%;
-    left: 80%;
-    font-weight: 600;
 }
 
 .toolbar {
@@ -92,7 +53,7 @@ th, td {
 
 .toolbar .tbar {
     font-weight: 900;
-    color: var(--font-gray);
+    color: var(--font-brown3);
     height: 100%;
     width: 100px;
     text-align: center;
@@ -113,14 +74,15 @@ th, td {
     position: relative;
     padding: 10px;
     gap: 10px;
+    /* background-color: var(--background-yellow); */
 }
 
 .sidebar {
     flex: 1;
     border-radius: 20px;
-    background-color: var(--backgroud4);
+    background-color: var(--ills-purple);
     min-height: 100vh;
-    color: var(--font-gray);
+    color: var(--font-brown3);
 }
 
 .wrap-sbar2{
@@ -130,8 +92,17 @@ th, td {
 }
 
 .sbar {
-    padding: 20px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    padding-left: 20%;
     font-size: 20px;
+    font-weight: 900;
+}
+
+.sbar2 {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-weight: 600;
 }
 
 .andor{
@@ -150,9 +121,31 @@ th, td {
 
 .block {
     flex: 5;
+}
 
+#plan-block {
+    display: none;
 }
 
 .wrap-sbar-content, .wrap-options {
     display: none;
+}
+
+.go {
+    position: relative;
+    width: 100px;
+    height: 25px;
+    left: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--starry-blue1);
+    color: #fff;
+    border-radius: 15px;
+}
+
+.go:hover {
+    background-color: var(--sky-purple1);
 }

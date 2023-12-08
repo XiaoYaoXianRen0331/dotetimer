@@ -1,9 +1,29 @@
 :root {
+    --background-yellow: #f6d777;
+
     --ills-purple: #dac9e2;
+
+    --background1: #ebe1dc;
+    --background2: #f5f5f6;
+    --background3: #f9e7df;
     --backgroud4: #ececf1;
-    --font-gray: #7c6c63;
-    --title-pink2: #f0bebd;
+    
+    --font-gray1: #8e9d96;
+    --font-purple2: #c3b4bb;
+    --font-brown3: #7c6c63;
+
     --title-dark1: #061d20;
+    --title-pink2: #f0bebd;
+    --title-yellow3: #f3c886;
+
+    --sky-purple1: #685a74;
+    --sky-light-beige2: #e9c8ba;
+    --sky-mid-beige3: #e9aa83;
+    --sky-dark-beige4: #895f5d;
+
     --starry-blue1: #102b4e;
+    --starry-blue2: #020811;
+
     --stat-yellow1: #edc4a2;
+    
 }

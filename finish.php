@@ -12,14 +12,27 @@
 
     ?>
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <a href="index.php">返回首頁</a>
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>wait for 3 sec(s).</div>
+    <span>or click </span>
+    <a href="index.php">here</a>
+</body>
+<script>
+    t = 2;
+    div = document.querySelector('div');
+    setInterval(() => {
+        div.innerHTML = `wait for ${t} sec(s).`;
+        t -= 1;
+    }, 1000);
+    setInterval(() => {
+        window.location.href='index.php';
+    }, 3000);
+</script>
+</html>

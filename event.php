@@ -18,7 +18,7 @@ if (isset($_GET['a'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新增資料</title>
+    <title>Document</title>
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/event.css">
 </head>
@@ -41,6 +41,7 @@ if (isset($_GET['a'])) {
             } ?>
         </div>
 
+        <!-- 新增資料 -->
         <?php if (isset($_GET['r'])) { ?>
             <form action="new.php?r=<?php echo $_GET['r'] ?>" method="post">
                 <?php if ($_GET['r'] != 2) {?>
@@ -104,7 +105,7 @@ if (isset($_GET['a'])) {
 
         <?php } else { ?>
 
-
+            <!-- 修改資料 -->
             <form action="edit.php?a=<?php echo $_GET['a']; ?>" method="post">
                 <div class="item">
                     <label for="start" class="title">開始時間</label>
