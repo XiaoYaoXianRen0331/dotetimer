@@ -1,0 +1,76 @@
+.titlebar {
+    width: 100%;
+    height: 200px;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titlebar .title {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.toolbar {
+    position: relative;
+    width: 60%;
+    height: 80px;
+    left: 20%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.toolbar .toolbar-item {
+    width: 80px;
+    height: 30px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: none;
+    padding-left: 10%;
+}
+
+.container.active {
+    display: block !important;
+}
+
+.container .wrap-duration .wrap-duration-item {
+    display: flex;
+}
+
+.container .wrap-duration .wrap-duration-item .duration-name,
+.container .wrap-duration .wrap-duration-item .duration-time,
+.container .wrap-duration .wrap-duration-item .duration-percentage {
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .wrap-duration .wrap-duration-item .duration {
+    width: 510px;
+    height: 40px;
+    background-color: #000;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.container .wrap-duration .wrap-duration-item .duration::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 250px;
+    height: 30px;
+    background-color: #fff;
+}

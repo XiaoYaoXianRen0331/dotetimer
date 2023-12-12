@@ -6,6 +6,27 @@
 
 <br/>
 
+## Sorting Data
+#### V0.0.4[2023-12-11]
+### Added
+- Some swatches
+- Index back page
+- reset.js
+
+### Completed
+- Attributes page 
+- Set attribute page
+- Sidebar sorting data
+
+### Changed
+- Improved Attributes page & Set attributes page styling
+- Header items
+
+### Repaired Bugs
+- Connection page error
+
+<br/>
+
 ## Navigation Page
 #### V0.0.3 [2023-12-08]
 ### Added

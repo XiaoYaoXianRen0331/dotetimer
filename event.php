@@ -19,27 +19,48 @@ if (isset($_GET['a'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="assets/css/color.css">
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/event.css">
 </head>
 <body>
-    <div class="container">
-        <div class="toolbar">
-            <?php if (isset($_GET['a'])){
-                echo '#事件' . $_GET['a'];
-            } else {
-                switch ($_GET['r']) {
-                    case 0:
-                        echo '記錄事件';
-                        break;
-                    case 1:
-                        echo '規劃行程';
-                        break;
-                    case 2:
-                        echo '開始記錄';
-                }
-            } ?>
+    <div class="wrap-header">
+        <div class="logo">
+            <img src="assets/images/dotetimer.png" alt="Dotetimer" title="Dotetimer" height="60px" />
         </div>
+        <ul>
+            <li>
+                <div class="header-item">
+                    <a href="">登出</a>
+                </div>
+            </li>
+            <li>
+                <div class="header-item">
+                    <a href="">帳號管理</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="titlebar">
+        <?php if (isset($_GET['a'])){
+            echo '#事件' . $_GET['a'];
+        } else {
+            switch ($_GET['r']) {
+                case 0:
+                    echo '記錄事件';
+                    break;
+                case 1:
+                    echo '規劃行程';
+                    break;
+                case 2:
+                    echo '開始記錄';
+            }
+        } ?>
+    </div>
+
+    <div class="container">
 
         <!-- 新增資料 -->
         <?php if (isset($_GET['r'])) { ?>
@@ -98,7 +119,6 @@ if (isset($_GET['a'])) {
                     <textarea name="note" id="note" cols="30" rows="10"></textarea>
                 </div>
                 <div class="item">
-                    <div class="title"></div>
                     <button class="btn">新增</button>
                 </div>
             </form>
@@ -158,12 +178,11 @@ if (isset($_GET['a'])) {
                 </div>
                 <div class="item">
                     <div class="title"></div>
-                    <div class="wrap-btn">
-                        <button class="btn">修改</button>
-                        <?php if ($result['executiontime_record'] == 2) {?>
-                            <a class="btn" href="finish.php?a=<?php echo $_GET['a']; ?>">完成</a>
-                        <?php }?>
-                    </div>
+                    <button class="btn">修改</button>
+                    <?php if ($result['executiontime_record'] == 2) {?>
+                        <a class="btn" href="finish.php?a=<?php echo $_GET['a']; ?>">完成</a>
+                    <?php }?>
+                    <a href="del.php?a=<?php echo $_GET['a']; ?>" class="btn">刪除</a>
                 </div>
             </form>
         <?php } ?>

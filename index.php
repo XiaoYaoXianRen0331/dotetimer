@@ -3,16 +3,13 @@ require_once 'string.php';
 require_once 'conn.php';
 
 // 取得記錄資料
-function result($order_by = '') {
-    global $conn;
-    return $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1 {$order_by};");
-}
+
+    $result = $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1 ORDER BY end_time DESC;");
 
 // 取得計畫資料
-function result_plan($order_by = '') {
-    global $conn;
-    return $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1 {$order_by};");
-}
+
+    $result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1 ORDER BY end_time DESC;");
+
 ?>
 
 
@@ -22,42 +19,60 @@ function result_plan($order_by = '') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/color.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
-
+    <div class="wrap-header">
+        <!-- 徽號 -->
+        <div class="logo">
+            <img src="assets/images/dotetimer.png" alt="Dotetimer" title="Dotetimer" height="60px" />
+        </div>
+        <!-- 連結 -->
+        <ul>
+            <li>
+                <div class="header-item">
+                    <a href="">登出</a>
+                </div>
+            </li>
+            <li>
+                <div class="header-item">
+                    <a href="">帳號管理</a>
+                </div>
+            </li>
+        </ul>
+    </div>
     <!-- 頂部欄 -->
     <div class="toolbar">
         <ul>
             <li>
-                <div class="tbar">
-                    <a href="attr.php?m=c">查看分類</a>
+                <div class="toolbar-item">
+                    <a href="stat.php">統計分析</a>
                 </div>
             </li>
             <li>
-                <div class="tbar">
-                    <a href="attr.php?m=t">查看任務</a>
+                <div class="toolbar-item">
+                    <a href="attr.php">我的任務</a>
                 </div>
             </li>
             <li>
-                <div class="tbar">
-                    <a href="attr.php?m=l">查看標籤</a>
+                <div class="toolbar-item">
+                    <a href="attr.php">選項管理</a>
                 </div>
             </li>
             <li>
-                <div class="tbar">
+                <div class="toolbar-item">
                     <a href="event.php?r=1">新增計畫</a>
                 </div>
             </li>
             <li>
-                <div class="tbar">
+                <div class="toolbar-item">
                     <a href="event.php?r=0">新增記錄</a>
                 </div>
             </li>
             <li>
-                <div class="tbar">
+                <div class="toolbar-item">
                     <a href="event.php?r=2">開始記錄</a>
                 </div>
             </li>
@@ -68,7 +83,9 @@ function result_plan($order_by = '') {
         <!-- 側邊欄 -->
         <div class="sidebar">
             <div class="wrap-sbar">
-                <div class="sbar">篩選</div>
+                <div class="sbar">
+                    <div class="hover">篩選</div>
+                </div>
                 <div class="wrap-sbar-content">
                     <div class="wrap-sbar2">
                         <div class="sbar2">分類</div>
@@ -92,7 +109,7 @@ function result_plan($order_by = '') {
                                 </div>
                                 <div class="option">
                                     <input type="radio" name="andor" id="labeland">
-                                    <label for="labelor">和</label>
+                                    <label for="labeland">和</label>
                                 </div>
                             </div>
                         
@@ -102,7 +119,9 @@ function result_plan($order_by = '') {
                 </div>
             </div>
             <div class="wrap-sbar">
-                <div class="sbar">排序</div>
+                <div class="sbar">
+                    <div class="hover">排序</div>
+                </div>
                 <div class="wrap-sbar-content">
                     <div class="wrap-sbar2">
                         <div class="sort" id="start-time">開始時間</div>
@@ -123,7 +142,9 @@ function result_plan($order_by = '') {
                 </div>
             </div>
             <div class="wrap-sbar">
-                <div class="sbar">搜尋</div>
+                <div class="sbar">
+                    <div class="hover">搜尋</div>
+                </div>
                 <div class="wrap-sbar-content">
 
                 </div>
@@ -143,10 +164,9 @@ function result_plan($order_by = '') {
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                 
-                    <?php //record(result_plan((isset($_GET['o'])) ? $_GET['o'] : '')); ?>
-                    <?php record(result_plan('ORDER BY TIMESTAMPDIFF(second, start_time, end_time)'));?>
+                <tbody id="plan-tbody">
+                
+                    <?php record($result_plan);?>
                 </tbody>
             </table>
         </div>
@@ -165,8 +185,8 @@ function result_plan($order_by = '') {
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php record(result((isset($_GET['o'])) ? $_GET['o'] : ''));?>
+                <tbody id="record-tbody">
+                    <?php record($result);?>
                 </tbody>
             </table>
         </div>
@@ -178,6 +198,10 @@ function result_plan($order_by = '') {
 
 <script src="assets/js/index.js"></script>
 
+<script>
+
+    
+</script>
 
 </html>
 

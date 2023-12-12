@@ -1,16 +1,18 @@
 <?php
-$conn = new mysqli('localhost', 'xiaoyao', 'xiaoyao', 'dotetimer');
-
-if ($conn->connect_error) {
-    die('Connection failed.</br>$conn->connect_error');
+try {
+    if(!($conn = new mysqli('localhost', 'xiaoyao', 'xiaoyao', 'dotetimer'))) {
+        die('Failed to connect to dotetimer server: ' . $conn->connect_error);
+    }
+} catch (Exception $e) {
+    die('Connection failed: ' . $e->getMessage());
 }
 
 $conn->query('SET NAMES UTF8'); //設定編碼
 $conn->query('SET time_zone = "+8:00"'); //設定時區
 
-$category = $conn->query("SELECT * FROM $table_category");
-$task = $conn->query("SELECT * FROM $table_task");
-$label = $conn->query("SELECT * FROM $table_label");
+$category = $conn->query("SELECT * FROM category");
+$task = $conn->query("SELECT * FROM task");
+$label = $conn->query("SELECT * FROM label");
 
 date_default_timezone_set('Asia/Taipei');
 

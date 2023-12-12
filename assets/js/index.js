@@ -111,55 +111,64 @@ function clickfilter() {
 
 
 // 當按下表格資料時，篩選資料
-for(td of category) {
-    td.addEventListener('click', function(e) {
-        // console.log(this);
-        for(sideIntdEL of side_category) {
-            sideIntdEL.checked = false;
-            // console.log(sideIntdEL);
-            if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
-                // console.log(sideIntdEL, 100);
-                sideIntdEL.click();
-                sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
-                sideIntdEL.closest('.wrap-options').style.display = 'block';
-                // console.log(sideIntdEL, 1);
+function resetClickfilter(){
+    console.log('resetClickfilter');
+    category = document.querySelectorAll('.category');
+    console.log(category[0]);
+    task = document.querySelectorAll('.task');
+    labels = document.querySelectorAll('.label');
+    td_labels = document.querySelectorAll('.labels');
+    for(td of category) {
+        td.addEventListener('click', function(e) {
+            // console.log(this);
+            for(sideIntdEL of side_category) {
+                sideIntdEL.checked = false;
+                // console.log(sideIntdEL);
+                if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
+                    // console.log(sideIntdEL, 100);
+                    sideIntdEL.click();
+                    sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
+                    sideIntdEL.closest('.wrap-options').style.display = 'block';
+                    // console.log(sideIntdEL, 1);
+                }
             }
-        }
-        clickfilter();
-    });
-}
+            clickfilter();
+        });
+    }
 
-for(td of task) {
-    td.addEventListener('click', function(e) {
-        // console.log(td, 100);
-        for(sideIntdEL of side_task) {
-            sideIntdEL.checked = false;
-            if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
-                sideIntdEL.click();
-                sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
-                sideIntdEL.closest('.wrap-options').style.display = 'block';
-                // console.log(sideIntdEL, 2);
+    for(td of task) {
+        td.addEventListener('click', function(e) {
+            // console.log(td, 100);
+            for(sideIntdEL of side_task) {
+                sideIntdEL.checked = false;
+                if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
+                    sideIntdEL.click();
+                    sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
+                    sideIntdEL.closest('.wrap-options').style.display = 'block';
+                    // console.log(sideIntdEL, 2);
+                }
             }
-        }
-        clickfilter();
-    });
-}
+            clickfilter();
+        });
+    }
 
-for(td of labels) {
-    td.addEventListener('click', function(e) {
-        // console.log(td, 100);
-        for(sideIntdEL of side_label) {
-            sideIntdEL.checked = false;
-            if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
-                sideIntdEL.click();
-                sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
-                sideIntdEL.closest('.wrap-options').style.display = 'block';
-                // console.log(sideIntdEL, 2);
+    for(td of labels) {
+        td.addEventListener('click', function(e) {
+            // console.log(td, 100);
+            for(sideIntdEL of side_label) {
+                sideIntdEL.checked = false;
+                if(sideIntdEL.closest('.option').querySelector('label').innerHTML == this.innerHTML) {
+                    sideIntdEL.click();
+                    sideIntdEL.closest('.wrap-sbar-content').style.display = 'block';
+                    sideIntdEL.closest('.wrap-options').style.display = 'block';
+                    // console.log(sideIntdEL, 2);
+                }
             }
-        }
-        clickfilter();
-    });
+            clickfilter();
+        });
+    }
 }
+resetClickfilter();
 
 // 側邊欄收合
 sbars = document.querySelectorAll('.sbar');
@@ -186,43 +195,73 @@ selects.forEach((s) => {
 });
 
 // 側邊欄排序資料
-order = [];
-let sorts = document.querySelectorAll('.sort');
-sorts.forEach((s) => {
-    
+let sort_by_starttime = document.getElementById('start-time');
+let sort_by_endtime = document.getElementById('end-time');
+let sort_by_lasttime = document.getElementById('time-lasting');
+let sort_by_category = document.getElementById('category');
+let sort_by_task = document.getElementById('task');
+let plan_tbody = document.getElementById('plan-tbody');
+let record_tbody = document.getElementById('record-tbody');
+let sort = document.getElementsByClassName('sort');
+
+Array.from(sort).forEach(function(s) {
     s.addEventListener('click', function(e) {
-        switch(this.id) {
-            case 'start-time':
-                index = 'start_time';
-                break;
-            case 'end-time':
-                index = 'end_time';
-                break;
-            case 'time-lasting':
-                index = 'DATEDIFF(start_time, end_time)';
-                break;
-            case 'category':
-                index = 'executiontime_category_id';
-                break;
-            case 'task':
-                index = 'executiontime_task_id';
-        }
-        if (this.classList.contains('active')) {
-            this.classList.remove('active');
-            i = order.indexOf(index);
-            order.splice(i, 1);
-        } else {
-            this.classList.add('active');
-            order.push(index);
-        }
-        text = 'ORDER BY ';
-        order.forEach(function(o){
-            text += o + ', ';
-        });
-        text = text.substring(0, text.length-2);
-        window.location.href='index.php?o='+text;
+        this.classList.remove('active');
     });
 });
+
+sort_by_starttime.addEventListener('click', (e) => {
+    console.log(record_tbody);
+    sortData('start_time');
+    sort_by_starttime.classList.add('active');
+});
+sort_by_endtime.addEventListener('click', (e) => {
+    sortData('end_time');
+    sort_by_endtime.classList.add('active');
+});
+sort_by_lasttime.addEventListener('click', (e) => {
+    sortData('TIMESTAMPDIFF(second, start_time, end_time)');
+    sort_by_lasttime.classList.add('active');
+});
+sort_by_category.addEventListener('click', (e) => {
+    sortData('executiontime_category_id');
+    sort_by_category.classList.add('active');
+});
+sort_by_task.addEventListener('click', (e) => {
+    sortData('executiontime_task_id');
+    sort_by_task.classList.add('active');
+});
+
+Array.from(sort).forEach(function(s) {
+    s.addEventListener('click', function(e) {
+        setTimeout(function() {
+            console.log(s);
+            resetClickfilter();
+        }, 1000);
+    });
+});
+
+function sortData(order){
+
+    // plan_block.innerHTML = '';
+    // record_block.innerHTML = '';
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'index_back.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // var responseData = JSON.parse(xhr.responseText);
+            var responseData = xhr.responseText.split('|');
+            // document.getElementById('temp').innerHTML=xhr.responseText;
+            plan_tbody.innerHTML = responseData[0];
+            record_tbody.innerHTML = responseData[1];
+        }
+    };
+    var formData = "order=" + encodeURIComponent(order);
+    xhr.send(formData);
+}
 
 // 切換記錄與計畫
 record_block = document.getElementById('record-block');

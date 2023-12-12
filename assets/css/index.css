@@ -1,7 +1,3 @@
-body {
-    background-color: var(--background3);
-}
-
 table {
     width: 100%;
     table-layout: fixed;
@@ -26,11 +22,19 @@ th, td {
     overflow: hidden;
 }
 
+td a {
+    display: block;
+}
+
+th:hover, td:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 .toolbar {
     width: 100%;
     height: 60px;
     padding: 15px;
-    
+    margin-top: 10px;
 }
 
 .toolbar ul {
@@ -51,7 +55,7 @@ th, td {
     top: 5px;
 }
 
-.toolbar .tbar {
+.toolbar .toolbar-item {
     font-weight: 900;
     color: var(--font-brown3);
     height: 100%;
@@ -59,7 +63,7 @@ th, td {
     text-align: center;
 }
 
-.toolbar .tbar:hover {
+.toolbar .toolbar-item:hover {
     background-color: var(--title-pink2);
     border-radius: 20px;
 
@@ -85,24 +89,37 @@ th, td {
     color: var(--font-brown3);
 }
 
+.wrap-sbar {
+    padding-left: 15%;
+}
+
 .wrap-sbar2{
-    padding-left: 20%;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     overflow: hidden;
+    font-weight: 600;
+    
 }
 
 .sbar {
     padding-top: 30px;
     padding-bottom: 10px;
-    padding-left: 20%;
     font-size: 20px;
     font-weight: 900;
 }
 
 .sbar2 {
-    padding-bottom: 10px;
+    width: 60px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.wrap-options {
     padding-top: 10px;
-    font-weight: 600;
+    padding-left: 10px;
 }
 
 .andor{
@@ -112,7 +129,7 @@ th, td {
 
 .option {
     display: flex;
-    
+    padding-bottom: 3px;
 }
 
 .space{
@@ -121,6 +138,15 @@ th, td {
 
 .block {
     flex: 5;
+}
+
+.sort {
+    width: 80px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
 }
 
 #plan-block {
@@ -148,4 +174,28 @@ th, td {
 
 .go:hover {
     background-color: var(--sky-purple1);
+}
+
+.hover {
+    width: 70px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hover:hover, .sbar2:hover, .sort:hover {
+    background-color: var(--background1);
+    cursor: pointer;
+}
+
+#temp {
+    position: fixed;
+    top: 0;
+    left: 200px;
+    width: 800px;
+    height: 700px;
+    z-index: 3;
+    background-color: #fff;
 }

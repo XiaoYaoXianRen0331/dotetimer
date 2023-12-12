@@ -9,6 +9,42 @@
 html,
 body {
     scroll-behavior: smooth;
+    background-color: var(--background2);
+    
+}
+
+.wrap-header {
+    height: 80px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wrap-header ul {
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+
+.wrap-header .header-item {
+    width: 90px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--font-brown3);
+    font-weight: 900;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.wrap-header .header-item:hover {
+    background-color: var(--title-pink2);
 }
 
 a {

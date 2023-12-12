@@ -6,7 +6,7 @@
     align-items: center;
     font-size: 24px;
     font-weight: 900;
-    background-color: var(--ills2-brown1);
+    background-color: var(--ills1-orange1);
     color: #fff;
     margin-bottom: 20px;
 }
@@ -19,7 +19,6 @@
 }
 
 .item {
-    box-sizing: border-box;
     width: 100%;
     min-height: 100px;
     padding: 20px;
@@ -42,16 +41,10 @@
     width: 70%;
 }
 
-.item .wrap-options .option {
+.option {
     padding: 5px;
-
-
-}
-
-#note {
-    width: 70%;
-    height: 250px;
-    resize: none;
+    width: 95px;
+    overflow: hidden;
 }
 
 .btn {
