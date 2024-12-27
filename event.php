@@ -78,7 +78,8 @@ if (isset($_GET['a'])) {
                 <div class="item">
                     <div class="title">分類</div>
                     <div class="wrap-options">
-                        <?php while ($row = $category->fetch_assoc()) { 
+                        <?php $select = select('category');
+                        while ($row = $select->fetch_assoc()) { 
                             if ($row['category_id'] !=20){ ?>
                                 <div class="option">
                                     <input type="radio" name="category" id="category_<?php echo $row['category_id']; ?>" value="<?php echo $row['category_id']; ?>" 
@@ -93,7 +94,8 @@ if (isset($_GET['a'])) {
                 <div class="item">
                     <div class="title">任務</div>
                     <div class="wrap-options">
-                        <?php while ($row = $task->fetch_assoc()) {?>
+                        <?php $select = select('task');
+                        while ($row = $select->fetch_assoc()) {?>
                             <div class="option">
                                 <input type="radio" name="task" id="task_<?php echo $row['task_id']; ?>" value="<?php echo $row['task_id']; ?>" 
                                 <?php echo ($row['task_id'] == 1) ? 'checked' : ''; ?>
@@ -106,7 +108,8 @@ if (isset($_GET['a'])) {
                 <div class="item">
                     <div class="title">標籤</div>
                     <div class="wrap-options">
-                        <?php while ($row = $label->fetch_assoc()) {?>
+                        <?php $select = select('label');
+                        while ($row = $select->fetch_assoc()) {?>
                             <div class="option">
                                 <input type="checkbox" name="label[]" id="label_<?php echo $row['label_id']; ?>" value="<?php echo $row['label_id']; ?>"> <!--php-->
                                 <label for="label_<?php echo $row['label_id']; ?>"><?php echo $row['label_name']; ?></label>
@@ -138,7 +141,8 @@ if (isset($_GET['a'])) {
                 <div class="item">
                     <div class="title">分類</div>
                     <div class="wrap-options">
-                    <?php while ($row = $category->fetch_assoc()) {
+                    <?php $select = select('category');
+                    while ($row = $select->fetch_assoc()) {
                         if ($row['category_id'] !=20){ ?>
                             <div class="option">
                                 <input type="radio" name="category" id="category_<?php echo $row['category_id']; ?>" value="<?php echo $row['category_id']; ?>" <?php echo ($result['executiontime_category_id'] == $row['category_id']) ? 'checked' : ''; ?>> <!--php-->
@@ -151,7 +155,8 @@ if (isset($_GET['a'])) {
                 <div class="item">
                     <div class="title">任務</div>
                     <div class="wrap-options">
-                    <?php while ($row = $task->fetch_assoc()) {?>
+                    <?php $select = select('task');
+                    while ($row = $select->fetch_assoc()) {?>
                         <div class="option">
                             <input type="radio" name="task" id="task_<?php echo $row['task_id']; ?>" value="<?php echo $row['task_id']; ?>" <?php echo ($result['executiontime_task_id'] == $row['task_id']) ? 'checked' : ''; ?>> <!--php-->
                             <label for="task_<?php echo $row['task_id']; ?>"><?php echo $row['task_name']; ?></label>
@@ -162,7 +167,8 @@ if (isset($_GET['a'])) {
                 <div class="item">
                     <div class="title">標籤</div>
                     <div class="wrap-options">
-                    <?php while ($row = $label->fetch_assoc()) {?>
+                    <?php $select = select('label');
+                    while ($row = $select->fetch_assoc()) {?>
                         <div class="option">
                             <input type="checkbox" name="label[]" id="label_<?php echo $row['label_id']; ?>" value="<?php echo $row['label_id']; ?>"
                                 <?php echo in_array($row['label_id'], $item_label) ? "checked" : "";

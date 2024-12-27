@@ -65,7 +65,7 @@
     position: relative;
 }
 
-.container .wrap-duration .wrap-duration-item .duration::after {
+.container .wrap-duration .wrap-duration-item .duration .duration-after {
     content: '';
     position: absolute;
     top: 5px;
@@ -73,4 +73,8 @@
     width: 250px;
     height: 30px;
     background-color: #fff;
+}
+
+.space {
+    width: 50px;
 }

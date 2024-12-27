@@ -10,10 +10,6 @@ try {
 $conn->query('SET NAMES UTF8'); //設定編碼
 $conn->query('SET time_zone = "+8:00"'); //設定時區
 
-$category = $conn->query("SELECT * FROM category");
-$task = $conn->query("SELECT * FROM task");
-$label = $conn->query("SELECT * FROM label");
-
 date_default_timezone_set('Asia/Taipei');
 
 $category_sorted = [];
@@ -22,7 +18,7 @@ $task_sorted = [];
 getCategoryTree();
 getTaskTree();
 
-function getCategoryTree($parentId = 20, $level = 1) {
+function getCategoryTree($parentId = 20, $level = 0) {
     global $conn, $category_sorted, $task_sorted;
     $result = $conn->query("SELECT * FROM category WHERE parent_id = \"{$parentId}\";");
     if ($result->num_rows > 0) {
@@ -33,7 +29,7 @@ function getCategoryTree($parentId = 20, $level = 1) {
     }
 }
 
-function getTaskTree($parentId = 1, $level = 1) {
+function getTaskTree($parentId = 1, $level = 0) {
     global $conn, $category_sorted, $task_sorted;
     $result = $conn->query("SELECT * FROM task WHERE task_parent_id = \"{$parentId}\";");
 
@@ -44,4 +40,36 @@ function getTaskTree($parentId = 1, $level = 1) {
         }
     }
 }
+
+function select($from, $where = '', $order = '') {
+    global $conn;
+
+    if($where != '') { $where = 'WHERE '.$where; }
+    if($order != '') { $order = 'ORDER BY '.$order; }
+    $result = $conn->query("SELECT * FROM {$from} {$where} {$order}");
+    return $result;
+}
+
+// 裁切字串
+function str7($str, $num=7)
+{
+    if (mb_strlen($str) > $num) {
+        return mb_substr($str, 0, $num) . '...';
+    } else {
+        return $str;
+    }
+}
+
+// 格式化時間
+function timefmt($time){
+    if ($time->format('%a')>0){
+        return $time->format('%ad %hh %mm');
+    } else if ($time->format('%h')>0){
+        return $time->format('%hh %im %ss');
+    } else {
+        return $time->format('%im %ss');
+    }
+}
+
+
 ?>

@@ -57,7 +57,8 @@
                     <div class="item">
                         <div class="title">子分類</div>
                         <div class="wrap-options">
-                            <?php while ($row = $category->fetch_assoc()) { ?>
+                            <?php $select = select('category');
+                            while ($row = $select->fetch_assoc()) { ?>
                                 <div class="option">
                                     <input type="radio" name="sub" id="sub_category_<?php echo $row['category_id']; ?>" <?php if($a){echo ($row['category_id'] == $result['parent_id'])?'checked':'';} ?>>
                                     <label for="sub_category_<?php echo $row['category_id']; ?>"><?php echo $row['category_name']; ?></label>
@@ -87,7 +88,8 @@
                     <div class="item">
                         <div class="title">子任務</div>
                         <div class="wrap-options">
-                            <?php while ($row = $task->fetch_assoc()) { ?>
+                            <?php $select = select('task');
+                            while ($row = $select->fetch_assoc()) { ?>
                                 <div class="option">
                                     <input type="radio" name="sub" id="sub_task_<?php echo $row['task_id']; ?>" <?php if($a){echo ($row['task_id'] == $result['task_parent_id'])?'checked':'';} ?> />
                                     <label for="sub_task_<?php echo $row['task_id']; ?>"><?php echo $row['task_name']; ?></label>
@@ -98,7 +100,8 @@
                     <div class="item">
                         <div class="title">分類</div>
                         <div class="wrap-options">
-                            <?php while ($row = $category->fetch_assoc()) { ?>
+                            <?php $select = select('category');
+                            while ($row = $select->fetch_assoc()) { ?>
                                 <div class="option">
                                     <input type="radio" name="category" id="category_belong_<?php echo $row['category_id']; ?>" <?php if($a){echo ($row['category_id'] == $result['task_category_id'])?'checked':'';} ?>>
                                     <label for="category_belong_<?php echo $row['category_id']; ?>"><?php echo $row['category_name']; ?></label>
@@ -123,7 +126,7 @@
             <?php break; 
         case 'l': ?>
             <div class="titlebar">
-                <?php echo (isset($_GET['a']))?'修改分類':'新增分類' ?>
+                <?php echo (isset($_GET['a']))?'修改標籤':'新增標籤' ?>
             </div>
             <div class="container">
                 <form action="new_category.php" method="post">

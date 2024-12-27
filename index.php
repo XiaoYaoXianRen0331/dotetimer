@@ -4,11 +4,14 @@ require_once 'conn.php';
 
 // 取得記錄資料
 
-    $result = $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1 ORDER BY end_time DESC;");
+    // $result = $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1 AND DATE(start_time) = CURDATE() ORDER BY end_time DESC;");
+    $result = $conn->query("SELECT * FROM executiontime WHERE executiontime_record != 1;");
 
 // 取得計畫資料
 
-    $result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1 ORDER BY end_time DESC;");
+    // $result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1 AND DATE(start_time) = CURDATE() ORDER BY end_time DESC;");
+    $result_plan = $conn->query("SELECT * FROM executiontime WHERE executiontime_record = 1;");
+
 
 ?>
 
@@ -83,6 +86,11 @@ require_once 'conn.php';
         <!-- 側邊欄 -->
         <div class="sidebar">
             <div class="wrap-sbar">
+                <div class="select-date">
+                    <input type="date" name="date" id="date" value="<?php echo (new Datetime())->format('Y-m-d'); ?>">
+                </div>
+            </div>
+            <div class="wrap-sbar">
                 <div class="sbar">
                     <div class="hover">篩選</div>
                 </div>
@@ -155,10 +163,10 @@ require_once 'conn.php';
             <table>
                 <thead>
                     <tr>
-                        <th>時間</th>
-                        <th>持續</th>
-                        <th>類別</th>
-                        <th>任務</th>
+                        <th class="th-time">時間</th>
+                        <th class="th-last">持續</th>
+                        <th class="th-category">類別</th>
+                        <th class="th-task">任務</th>
                         <th>標籤</th>
                         <th>備註</th>
                         <th></th>
@@ -176,10 +184,10 @@ require_once 'conn.php';
             <table>
                 <thead>
                     <tr>
-                        <th>時間</th>
-                        <th>持續</th>
-                        <th>類別</th>
-                        <th>任務</th>
+                        <th class="th-time">時間</th>
+                        <th class="th-last">持續</th>
+                        <th class="th-category">類別</th>
+                        <th class=""th-task>任務</th>
                         <th>標籤</th>
                         <th>備註</th>
                         <th></th>
@@ -197,6 +205,7 @@ require_once 'conn.php';
 </body>
 
 <script src="assets/js/index.js"></script>
+<script src="assets/js/reset.js"></script>
 
 <script>
 
@@ -227,7 +236,7 @@ function record($data)
                 JOIN
                     label l ON l.label_id = tl.tasklabel_label_id
                 WHERE
-                    tl.tasklabel_id = {$row['executiontime_id']}
+                    tl.tasklabel_executiontime_id = {$row['executiontime_id']}
                 ORDER BY 
                     l.label_id
                 ");
@@ -278,40 +287,19 @@ function record($data)
 
 }
 
-// 裁切字串
-function str7($str, $num=7)
-{
-    if (mb_strlen($str) > $num) {
-        return mb_substr($str, 0, $num) . '...';
-    } else {
-        return $str;
-    }
-}
-
-// 格式化時間
-function timefmt($time){
-    if ($time->format('%a')>0){
-        return $time->format('%ad %hh %mm');
-    } else if ($time->format('%h')>0){
-        return $time->format('%hh %im %ss');
-    } else {
-        return $time->format('%im %ss');
-    }
-}
-
 
 
 
 // 側邊欄篩選
 function getCategory() {
     global $category_sorted;
-    $tag = 1;
+    $tag = 0;
 
     foreach ($category_sorted as $key => $row) { ?>
         <div class="level">
             <div class="option">
                 <input type="checkbox" class="side_category" name="category" id="category<?php echo $row['row']['category_id']; ?>">
-                <?php echo str_repeat('<span class="space"></span>', $row['level']-1); ?>
+                <?php echo str_repeat('<span class="space"></span>', $row['level']); ?>
                 <label for="category<?php echo $row['row']['category_id'] ?>"><?php echo $row['row']['category_name'] ?></label>
             </div>
         <?php
@@ -322,12 +310,12 @@ function getCategory() {
             } else{ 
                 $tag += $sub;
                 if($sub < 0) {
-                    echo str_repeat('</div>', abs($sub)+1);
+                    echo str_repeat('</div>', abs($sub) + 1);
                 }
             }
         }
     }            
-    echo str_repeat('</div>', $tag);
+    echo str_repeat('</div>', $tag + 1);
 
     unset($key);
     unset($row);
@@ -336,13 +324,13 @@ function getCategory() {
 
 function getTask() {
     global $task_sorted;
-    $tag = 1;
+    $tag = 0;
 
     foreach ($task_sorted as $key => $row) { ?>
         <div class="level">
             <div class="option">
                 <input type="checkbox" class="side_task" name="task" id="task<?php echo $row['row']['task_id']; ?>">
-                <?php echo str_repeat('<span class="space"></span>',$row['level']-1); ?>
+                <?php echo str_repeat('<span class="space"></span>',$row['level']); ?>
                 <label for="task<?php echo $row['row']['task_id']; ?>"><?php echo $row['row']['task_name']; ?></label>
             </div>
         <?php
@@ -353,12 +341,12 @@ function getTask() {
             } else{ 
                 $tag += $sub;
                 if($sub < 0) {
-                    echo str_repeat('</div>', abs($sub)+1);
+                    echo str_repeat('</div>', abs($sub) + 1);
                 }
             }
         }
     }            
-    echo str_repeat('</div>', $tag);
+    echo str_repeat('</div>', $tag + 1);
 
     unset($key);
     unset($row);

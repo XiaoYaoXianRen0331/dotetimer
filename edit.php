@@ -18,13 +18,13 @@ try {
 
     if(isset($_POST['label'])) {
 
-        $conn -> query("DELETE FROM tasklabel WHERE `tasklabel_id` = \"{$_GET['a']}\";");
+        $conn -> query("DELETE FROM tasklabel WHERE `tasklabel_executiontime_id` = \"{$_GET['a']}\";");
     
     
         foreach($_POST['label'] as $label_item) {
     
-            $qry = "INSERT IGNORE INTO Tasklabel (tasklabel_id, tasklabel_label_id) VALUES (\"{$_GET['a']}\", \"{$label_item}\");";
-            $conn -> query($qry);
+            $qry = "INSERT IGNORE INTO Tasklabel (tasklabel_executiontime_id, tasklabel_label_id) VALUES ({$_GET['a']}, {$label_item});";
+            if(!($conn -> query($qry))){ die("ERROR:" . $conn->error);}
             echo 'Success insert: ' . $label_item . '<br/>';
     
         }

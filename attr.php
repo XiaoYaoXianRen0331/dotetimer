@@ -112,7 +112,7 @@ function getCategory() {
     foreach($category_sorted as $row){ ?>
         <div class="item">
             <div class="wrap-line">
-                <?php echo str_repeat('<div class="space"></div>', $row['level']-1); ?>
+                <?php echo str_repeat('<div class="space"></div>', $row['level']); ?>
                 <div class="line"><?php echo $row['row']['category_name']; ?></div>
             </div>
             <div class="wrap-line">

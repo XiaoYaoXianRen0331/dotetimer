@@ -11,6 +11,8 @@ let side_label = document.querySelectorAll('.side_label');
 
 let items = [...side_category, ...side_task, ...side_label];
 
+let input_date = document.getElementById('date');
+
 // 當checkbox被按時，篩選資料
 for (i of items){
     i.addEventListener('click', function(e){
@@ -112,9 +114,8 @@ function clickfilter() {
 
 // 當按下表格資料時，篩選資料
 function resetClickfilter(){
-    console.log('resetClickfilter');
     category = document.querySelectorAll('.category');
-    console.log(category[0]);
+
     task = document.querySelectorAll('.task');
     labels = document.querySelectorAll('.label');
     td_labels = document.querySelectorAll('.labels');
@@ -168,7 +169,7 @@ function resetClickfilter(){
         });
     }
 }
-resetClickfilter();
+// resetClickfilter();
 
 // 側邊欄收合
 sbars = document.querySelectorAll('.sbar');
@@ -206,12 +207,14 @@ let sort = document.getElementsByClassName('sort');
 
 Array.from(sort).forEach(function(s) {
     s.addEventListener('click', function(e) {
-        this.classList.remove('active');
+        Array.from(sort).forEach(function(st) {
+            st.classList.remove('active');
+        });
     });
 });
 
 sort_by_starttime.addEventListener('click', (e) => {
-    console.log(record_tbody);
+    // console.log(record_tbody);
     sortData('start_time');
     sort_by_starttime.classList.add('active');
 });
@@ -235,17 +238,20 @@ sort_by_task.addEventListener('click', (e) => {
 Array.from(sort).forEach(function(s) {
     s.addEventListener('click', function(e) {
         setTimeout(function() {
-            console.log(s);
-            resetClickfilter();
+            // resetClickfilter();
         }, 1000);
     });
 });
 
-function sortData(order){
+let order = 'end_time DESC';
+let date = input_date.value;
 
-    // plan_block.innerHTML = '';
-    // record_block.innerHTML = '';
+function sortData(o){
 
+    plan_tbody.innerHTML = '';
+    record_tbody.innerHTML = '';
+
+    order = o;
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'index_back.php', true);
@@ -254,12 +260,12 @@ function sortData(order){
         if (xhr.readyState === 4 && xhr.status === 200) {
             // var responseData = JSON.parse(xhr.responseText);
             var responseData = xhr.responseText.split('|');
-            // document.getElementById('temp').innerHTML=xhr.responseText;
+            
             plan_tbody.innerHTML = responseData[0];
             record_tbody.innerHTML = responseData[1];
         }
     };
-    var formData = "order=" + encodeURIComponent(order);
+    var formData = "order=" + encodeURIComponent(order) + "&date=" + encodeURIComponent(date);
     xhr.send(formData);
 }
 
@@ -275,4 +281,68 @@ document.getElementById('go-plan').addEventListener('click', (e) => {
 document.getElementById('go-record').addEventListener('click', (e) => {
     record_block.style.display = 'block';
     plan_block.style.display = 'none';
+});
+
+//切換日期
+document.getElementById('date').addEventListener('change', (e) => {
+    plan_tbody.innerHTML = '';
+    record_tbody.innerHTML = '';
+
+    date = e.target.value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'index_back.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // var responseData = JSON.parse(xhr.responseText);
+            var responseData = xhr.responseText.split('|');
+            plan_tbody.innerHTML = responseData[0];
+            record_tbody.innerHTML = responseData[1];
+        }
+    };
+    var formData = "order=" + encodeURIComponent(order) + "&date=" + encodeURIComponent(date);
+    xhr.send(formData);
+});
+
+// 點擊表頭時，排序資料
+let th_time = document.querySelectorAll('.th-time');
+let th_last = document.querySelectorAll('.th-last');
+let th_category = document.querySelectorAll('.th-category');
+let th_task = document.querySelectorAll('.th-task');
+
+let th_items = [...th_time, ...th_last, ...th_category, ...th_task];
+
+th_items.forEach((item) => {
+    item.addEventListener('click', () => {
+        sort[0].closest('.wrap-sbar-content').style.display = 'block';
+    });
+});
+
+th_time.forEach((th) => {
+    th.addEventListener('click', () => {
+        if(sort_by_starttime.classList.contains('active')) {
+            sort_by_endtime.click();
+        } else {
+            sort_by_starttime.click();
+        }
+    }, false);
+});
+
+th_last.forEach((th) => {
+    th.addEventListener('click', () => {
+        sort_by_lasttime.click();
+    }, false);
+});
+
+th_category.forEach((th) => {
+    th.addEventListener('click', () => {
+        sort_by_category.click();
+    }, false);
+});
+
+th_task.forEach((th) => {
+    th.addEventListener('click', () => {
+        sort_by_task.click();
+    }, false);
 });
